@@ -44,7 +44,7 @@ export function SearchBox({ onSelect }: { onSelect: (p: Place) => void }) {
 
   return (
     <div className="relative w-full">
-      <div className="glass flex items-center gap-2 rounded-full px-4 py-2.5 glow">
+      <div className="glass-solid flex items-center gap-2 rounded-full px-4 py-2.5">
         <Search className="h-5 w-5 text-primary" />
         <input
           value={q}
@@ -69,7 +69,7 @@ export function SearchBox({ onSelect }: { onSelect: (p: Place) => void }) {
         )}
       </div>
       {open && (items.length > 0 || msg) && (
-        <div className="glass absolute left-0 right-0 top-full mt-2 overflow-hidden rounded-2xl bg-popover">
+        <div className="glass-solid absolute left-0 right-0 top-full mt-2 overflow-hidden rounded-2xl">
           {corrected && <p className="px-4 pt-2 text-xs text-muted-foreground">Showing results for <b>{corrected}</b></p>}
           {items.map((p, i) => (
             <button

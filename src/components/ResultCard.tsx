@@ -11,7 +11,7 @@ export function ResultCard({ result, onClose }: { result: CheckResult; onClose: 
       role="status"
       aria-live="polite"
       className={cn(
-        "animate-result-in glass w-full max-w-sm rounded-2xl p-4 pr-10 relative border-l-4",
+        "animate-result-in glass-solid w-full max-w-sm rounded-2xl p-4 pr-10 relative border-l-4",
         hot ? "border-l-danger" : "border-l-safe",
       )}
     >

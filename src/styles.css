@@ -156,3 +156,9 @@
 .loc-marker .ring { position: absolute; inset: 0; border-radius: 9999px; background: var(--primary-glow); animation: pulse-ring 1.8s ease-out infinite; }
 .leaflet-container { font-family: var(--font-sans); background: var(--muted); }
 .leaflet-popup-content-wrapper { border-radius: 12px; }
+@utility glass-solid {
+  background: color-mix(in oklab, var(--popover) 94%, transparent);
+  backdrop-filter: blur(18px);
+  border: 1px solid oklch(1 0 0 / 0.8);
+  box-shadow: var(--shadow-glow);
+}

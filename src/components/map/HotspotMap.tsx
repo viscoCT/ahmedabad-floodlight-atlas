@@ -8,7 +8,7 @@ import { searchPlaces } from "@/services/geocoding";
 import { Basemap, DEFAULT_VIEW, MapRef, STYLES, locIcon, propsPopup, toggleFullscreen, useTileFailure } from "./mapCommon";
 
 export type HotspotMapHandle = { focus: (name: string) => void };
-const ctl = "glass grid h-10 w-10 place-items-center rounded-xl hover:text-primary";
+const ctl = "glass-solid grid h-10 w-10 place-items-center rounded-xl hover:text-primary";
 
 const HotspotMap = forwardRef<HotspotMapHandle>(function HotspotMap(_, ref) {
   const wrap = useRef<HTMLDivElement>(null);

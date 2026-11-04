@@ -14,7 +14,7 @@ function ClickHandler({ onClick }: { onClick: (lat: number, lng: number) => void
   return null;
 }
 
-const ctl = "glass grid h-10 w-10 place-items-center rounded-xl text-foreground hover:text-primary transition-colors";
+const ctl = "glass-solid grid h-10 w-10 place-items-center rounded-xl text-foreground hover:text-primary transition-colors";
 
 export default function SafetyMap() {
   const wrap = useRef<HTMLDivElement>(null);
