@@ -48,10 +48,10 @@ export function DensityHeatmap() {
     const x = cv.getContext("2d")!;
     const N = D.N, s = cv.width / N, L = Math.log1p(D.gmax);
     const st = [[232, 243, 247], [140, 199, 217], [224, 138, 44], [138, 31, 43]];
-    const col = (t: number) => { const p = t * 3, i = Math.min(2, Math.floor(p)), u = p - i; return st[i].map((a, k) => Math.round(a + (st[i + 1][k] - a) * u)); };
+    const col = (t: number) => { const p = t * 3, i = Math.min(2, Math.floor(p)), u = p - i; return st[i]!.map((a, k) => Math.round(a + (st[i + 1]![k]! - a) * u)); };
     x.fillStyle = "#f3f6f8"; x.fillRect(0, 0, cv.width, cv.height);
     for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) {
-      const c = (D.grid as readonly (readonly number[])[])[i][j];
+      const c = (D.grid as readonly (readonly number[])[])[i]![j];
       if (!c) continue;
       x.fillStyle = `rgb(${col(Math.log1p(c) / L)})`;
       x.fillRect(i * s, cv.height - (j + 1) * s, s + 0.5, s + 0.5);

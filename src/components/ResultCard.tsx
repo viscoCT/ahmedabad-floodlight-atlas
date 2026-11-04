@@ -1,7 +1,7 @@
 import { ShieldAlert, ShieldCheck, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export type CheckResult = { id: number; inHotspot: boolean; name?: string };
+export type CheckResult = { id: number; inHotspot: boolean; name?: string | undefined };
 
 export function ResultCard({ result, onClose }: { result: CheckResult; onClose: () => void }) {
   const hot = result.inHotspot;

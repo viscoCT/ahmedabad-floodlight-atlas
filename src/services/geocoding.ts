@@ -39,12 +39,12 @@ export function normalize(q: string) {
 
 function lev(a: string, b: string) {
   const m = a.length, n = b.length;
-  const d = Array.from({ length: m + 1 }, (_, i) => [i, ...Array(n).fill(0)]);
-  for (let j = 1; j <= n; j++) d[0][j] = j;
+  const d: number[][] = Array.from({ length: m + 1 }, (_, i) => [i, ...Array(n).fill(0)]);
+  for (let j = 1; j <= n; j++) d[0]![j] = j;
   for (let i = 1; i <= m; i++)
     for (let j = 1; j <= n; j++)
-      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
-  return d[m][n];
+      d[i]![j] = Math.min(d[i - 1]![j]! + 1, d[i]![j - 1]! + 1, d[i - 1]![j - 1]! + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[m]![n]!;
 }
 
 /** Closest known locality names for a (possibly misspelt) query. */
@@ -69,7 +69,7 @@ async function photon(q: string, signal?: AbortSignal): Promise<Place[]> {
     q, limit: "8", lat: String(AHMEDABAD_CENTER[0]), lon: String(AHMEDABAD_CENTER[1]),
     bbox: `${BBOX.w},${BBOX.s},${BBOX.e},${BBOX.n}`,
   }).toString();
-  const r = await fetch(u, { signal });
+  const r = await fetch(u, { signal: signal ?? null });
   if (!r.ok) throw new Error("photon");
   const j = await r.json();
   return (j.features ?? []).map((f: any) => {
@@ -86,7 +86,7 @@ async function nominatim(q: string, signal?: AbortSignal): Promise<Place[]> {
     q: `${q}, Ahmedabad`, format: "jsonv2", limit: "8", bounded: "1",
     viewbox: `${BBOX.w},${BBOX.n},${BBOX.e},${BBOX.s}`, countrycodes: "in",
   }).toString();
-  const r = await fetch(u, { signal, headers: { Accept: "application/json" } });
+  const r = await fetch(u, { signal: signal ?? null, headers: { Accept: "application/json" } });
   if (!r.ok) throw new Error("nominatim");
   const j = await r.json();
   return j.map((x: any) => {
@@ -102,7 +102,7 @@ async function query(q: string, signal?: AbortSignal): Promise<Place[]> {
   return res;
 }
 
-export type SearchResult = { places: Place[]; corrected?: string; failed: boolean };
+export type SearchResult = { places: Place[]; corrected?: string | undefined; failed: boolean };
 
 /** Search a place in Ahmedabad with typo correction and provider fallback. */
 export async function searchPlaces(raw: string, signal?: AbortSignal): Promise<SearchResult> {
@@ -111,11 +111,12 @@ export async function searchPlaces(raw: string, signal?: AbortSignal): Promise<S
   let places = await query(q, signal);
   let corrected: string | undefined;
   const fz = fuzzyLocalities(q, 2);
-  if (fz.length && fz[0].toLowerCase() !== q) {
+  const f0 = fz[0];
+  if (f0 && f0.toLowerCase() !== q) {
     // Also try corrected spelling when results are weak.
     if (places.filter((p) => inBox(p.lat, p.lng)).length < 2) {
-      const more = await query(fz[0], signal);
-      if (more.length) { corrected = fz[0]; places = [...more, ...places]; }
+      const more = await query(f0, signal);
+      if (more.length) { corrected = f0; places = [...more, ...places]; }
     }
   }
   const seen = new Set<string>();

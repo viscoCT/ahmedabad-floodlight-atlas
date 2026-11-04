@@ -13,7 +13,7 @@ function bboxOf(coords: Position[][] | Position[][][]): [number, number, number,
   let a = Infinity, b = Infinity, c = -Infinity, d = -Infinity;
   const walk = (arr: unknown): void => {
     if (typeof (arr as number[])[0] === "number") {
-      const [x, y] = arr as number[];
+      const [x, y] = arr as [number, number];
       if (x < a) a = x; if (y < b) b = y; if (x > c) c = x; if (y > d) d = y;
     } else (arr as unknown[]).forEach(walk);
   };
